@@ -1,0 +1,9 @@
+---
+docker_upstart_env_template: docker.j2
+docker_upstart_env_file: /etc/default/docker
+
+docker_systemd_env_template: systemd_env.conf.j2
+docker_systemd_env_file: /etc/systemd/system/docker.service.d/env.conf
+
+
+docker_envs: []

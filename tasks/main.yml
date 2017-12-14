@@ -1,0 +1,38 @@
+---
+# ======================== systemd ========================
+
+- name: Ensure env file directory exists systemd
+  file: "path={{ docker_systemd_env_file | dirname }} state=directory"
+  when:
+    - docker_envs is defined
+    - docker_envs is not none
+    - docker_envs|length != 0
+    - ansible_service_mgr == "systemd"
+
+- name: Configure docker environments systemd
+  template: "src={{ docker_systemd_env_template }} dest={{ docker_systemd_env_file }}"
+  notify: restart docker
+  when:
+    - docker_envs is defined
+    - docker_envs is not none
+    - docker_envs|length != 0
+    - ansible_service_mgr == "systemd"
+
+# ======================== upstart ========================
+
+- name: Ensure env file directory exists upstart
+  file: "path={{ docker_upstart_env_file | dirname }} state=directory"
+  when:
+    - docker_envs is defined
+    - docker_envs is not none
+    - docker_envs|length != 0
+    - ansible_service_mgr == "upstart"
+
+- name: Configure docker environments upstart
+  template: "src={{ docker_upstart_env_template }} dest={{ docker_upstart_env_file }}"
+  notify: restart docker
+  when:
+    - docker_envs is defined
+    - docker_envs is not none
+    - docker_envs|length != 0
+    - ansible_service_mgr == "upstart"
